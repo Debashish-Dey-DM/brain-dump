@@ -10,9 +10,27 @@
     <div class="mt-5">
       <!-- Markdown Text Input -->
       <textarea v-model="markdownContent" placeholder="Paste your Markdown here..."></textarea>
+      <div class="mt-4">
+        <input v-model="journalTitle" placeholder="Enter journal title" class="input" type="text" />
+
+        <input
+          v-model="journalDescription"
+          placeholder="Enter journal description"
+          class="input"
+          type="text"
+        />
+
+        <input
+          v-model="journalTags"
+          placeholder="Enter tags (comma-separated)"
+          class="input mt-2"
+          type="text"
+        />
+      </div>
 
       <!-- Preview Button -->
       <button @click="showPreview">Preview</button>
+      <button @click="uploadJournalEntry" class="ml-2">Upload Journal</button>
 
       <!-- Rendered Markdown Output (Only shown after clicking preview) -->
       <div v-if="isPreviewVisible" class="preview" v-html="markdownToHtml"></div>
@@ -23,13 +41,14 @@
 <script>
 import { ref, computed } from 'vue'
 import { marked } from 'marked'
+import { uploadJournal } from '@/Services/unloadServices'
 
 // Configure marked for GitHub-style Markdown
 marked.setOptions({
-  breaks: true,        // Enables line breaks with a single Enter
-  gfm: true,          // Enables GitHub Flavored Markdown
-  headerIds: false,   // Disable auto-generated header IDs
-  mangle: false       // Prevent unnecessary encoding
+  breaks: true, // Enables line breaks with a single Enter
+  gfm: true, // Enables GitHub Flavored Markdown
+  headerIds: false, // Disable auto-generated header IDs
+  mangle: false, // Prevent unnecessary encoding
 })
 
 export default {
@@ -37,7 +56,9 @@ export default {
     const markdownContent = ref('') // Stores Markdown input
     const isPreviewVisible = ref(false) // Controls when preview is shown
     const selectedFileName = ref('') // Stores uploaded file name
-
+    const journalTitle = ref('')
+    const journalTags = ref('')
+    const journalDescription = ref('')
     // Handle File Upload
     const handleFileUpload = (event) => {
       const file = event.target.files[0]
@@ -58,18 +79,56 @@ export default {
     const showPreview = () => {
       isPreviewVisible.value = true
     }
+    const uploadJournalEntry = async () => {
+      try {
+        const tagsArray = journalTags.value
+          .split(',')
+          .map((tag) => tag.trim())
+          .filter((tag) => tag !== '')
 
-    return { markdownContent, handleFileUpload, markdownToHtml, isPreviewVisible, showPreview, selectedFileName }
-  }
+        await uploadJournal({
+          title: journalTitle.value,
+          content: markdownContent.value,
+          tags: tagsArray,
+          description: journalDescription.value,
+        })
+
+        alert('Journal uploaded successfully!')
+      } catch (error) {
+        console.error('Upload failed:', error)
+        alert('Failed to upload journal.')
+      }
+    }
+
+    return {
+      markdownContent,
+      handleFileUpload,
+      markdownToHtml,
+      isPreviewVisible,
+      showPreview,
+      selectedFileName,
+      uploadJournalEntry,
+      journalTitle,
+      journalTags,
+      journalDescription,
+    }
+  },
 }
 </script>
 
 <style>
 /* Hide default file input */
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
-
+.input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
 .file-upload-label {
   display: inline-block;
   padding: 10px 15px;
@@ -129,7 +188,9 @@ button {
 }
 
 /* GitHub-style Markdown Styling */
-.preview h1, .preview h2, .preview h3 {
+.preview h1,
+.preview h2,
+.preview h3 {
   font-weight: bold;
   margin-top: 20px;
 }
