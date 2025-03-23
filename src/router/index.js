@@ -10,7 +10,11 @@ const routes = [
     component: () => import('../views/JournalView.vue'),
     meta: { title: 'Journal' },
   },
-
+  {
+    path: '/upload',
+    component: () => import('../views/UploadJournal.vue'),
+    meta: { title: 'Upload' },
+  },
   // Fallback route for unknown paths (Redirects to home)
   { path: '/:pathMatch(.*)*', redirect: '/', meta: { title: 'Not Found' } },
 ]
