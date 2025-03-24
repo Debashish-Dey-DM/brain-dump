@@ -20,11 +20,14 @@
       </p>
 
       <!-- Tag Indicator -->
+
       <p class="text-gray-600 text-sm mt-2">
         <span
+          v-for="tag in post.tags"
+          :key="tag"
           class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
         >
-          {{ post.tags.join(',') }}
+          {{ tag }}
         </span>
       </p>
     </div>
