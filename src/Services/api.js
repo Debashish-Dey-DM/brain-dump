@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3000'
+const API_URL = 'https://brain-dump-backend.onrender.com'
 
 export const getJournals = async () => {
   const response = await axios.get(`${API_URL}/journals`)
