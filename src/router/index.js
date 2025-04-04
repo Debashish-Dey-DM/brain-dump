@@ -9,6 +9,7 @@ const routes = [
     path: '/journal/:journalid',
     component: () => import('../views/JournalView.vue'),
     meta: { title: 'Journal' },
+    props: true,
   },
   {
     path: '/upload',
@@ -17,6 +18,13 @@ const routes = [
   },
   // Fallback route for unknown paths (Redirects to home)
   { path: '/:pathMatch(.*)*', redirect: '/', meta: { title: 'Not Found' } },
+  {
+    path: '/tags/:tag',
+    name: 'Tag',
+    component: () => import('../views/TagView.vue'),
+    props: true,
+    meta: { title: 'Tag' },
+  },
 ]
 
 const router = createRouter({

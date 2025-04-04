@@ -8,11 +8,12 @@
       </p>
 
       <!-- Title -->
-      <h2
+      <a
         class="text-xl font-mono subpixel-antialiased text-gray-700 hover:underline cursor-pointer"
+        :href="`/journal/${post.id}`"
       >
         {{ post.title }}
-      </h2>
+      </a>
 
       <!-- Description -->
       <p class="text-gray-700 mt-2">
