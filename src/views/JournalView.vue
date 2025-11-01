@@ -36,7 +36,11 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { marked } from 'marked'
-import { getJournalById, getRelatedJournals, getRecentJournals } from '@/Services/unloadServices'
+import {
+  getJournalByIdFirebase,
+  getRelatedJournalsFirebase,
+  getRecentJournalsFirebase,
+} from '@/Services/unloadServices'
 
 marked.setOptions({
   breaks: true,
@@ -78,12 +82,12 @@ export default {
     }
 
     onMounted(async () => {
-      const data = await getJournalById(props.journalid)
+      const data = await getJournalByIdFirebase(props.journalid)
       journal.value = data
-      relatedJournals.value = await getRelatedJournals(props.journalid, data.tags)
+      relatedJournals.value = await getRelatedJournalsFirebase(props.journalid, data.tags)
       // if related journals are empty, fetch recent journals
       if (relatedJournals.value.length === 0) {
-        recentJournals.value = await getRecentJournals()
+        recentJournals.value = await getRecentJournalsFirebase()
       }
     })
 

@@ -29,7 +29,7 @@
 <script>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getTags } from '@/Services/unloadServices'
+import { getTagsFirebase } from '@/Services/unloadServices'
 
 export default {
   name: 'SideBar',
@@ -53,7 +53,7 @@ export default {
 
     onMounted(async () => {
       try {
-        const fetchedTags = await getTags()
+        const fetchedTags = await getTagsFirebase()
         tags.value = fetchedTags
         randomColors.value = fetchedTags.map(() => getRandomLightColor())
       } catch (error) {

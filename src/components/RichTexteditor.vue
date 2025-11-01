@@ -41,7 +41,8 @@
 <script>
 import { ref, computed } from 'vue'
 import { marked } from 'marked'
-import { uploadJournal } from '@/Services/unloadServices'
+// import { uploadJournal } from '@/Services/unloadServices'
+import { uploadJournalFirebase } from '@/Services/unloadServices'
 
 // Configure marked for GitHub-style Markdown
 marked.setOptions({
@@ -86,7 +87,7 @@ export default {
           .map((tag) => tag.trim())
           .filter((tag) => tag !== '')
 
-        await uploadJournal({
+        await uploadJournalFirebase({
           title: journalTitle.value,
           content: markdownContent.value,
           tags: tagsArray,

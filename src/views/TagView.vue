@@ -34,7 +34,7 @@
 <script>
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { getJournalByTag } from '@/Services/unloadServices'
+import { getJournalByTagFirebase } from '@/Services/unloadServices'
 
 export default {
   name: 'TagView',
@@ -45,7 +45,7 @@ export default {
 
     const fetchJournals = async (tagValue) => {
       try {
-        journals.value = await getJournalByTag(tagValue)
+        journals.value = await getJournalByTagFirebase(tagValue)
       } catch (error) {
         console.error('Error fetching journals by tag:', error)
       }

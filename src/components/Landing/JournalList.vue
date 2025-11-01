@@ -58,7 +58,8 @@
 
 <script>
 import { onMounted, ref } from 'vue'
-import { getJournals } from '@/Services/unloadServices'
+// import { getJournals } from '@/Services/unloadServices'
+import { getJournalsFirebase } from '@/Services/unloadServices'
 export default {
   name: 'JournalList',
   setup() {
@@ -66,7 +67,7 @@ export default {
 
     onMounted(async () => {
       try {
-        journals.value = await getJournals()
+        journals.value = await getJournalsFirebase()
         console.log('Journals:', journals.value)
       } catch (error) {
         console.error('Error fetching journals:', error)
@@ -106,6 +107,7 @@ export default {
     // },
     // method for formatDate
     formatDate(isoString) {
+      if (!isoString) return 'Draft (no date)'
       const date = new Date(isoString)
       return new Intl.DateTimeFormat('en-US', {
         dateStyle: 'medium',
