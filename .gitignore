@@ -29,3 +29,5 @@ coverage
 
 *.tsbuildinfo
 .env
+# Firebase cache file
+hosting.*.cache
