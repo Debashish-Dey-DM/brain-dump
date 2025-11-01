@@ -1,45 +1,55 @@
 <template>
-  <div class="max-w-2xl mx-auto mt-10 space-y-6">
-    <h1 class="text-2xl font-bold mb-4">Posts tagged with: "{{ tag }}"</h1>
+  <div class="max-w-2xl mx-auto mt-10 flex flex-col space-y-6">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">Posts tagged with: "{{ tag }}"</h1>
 
-    <div v-for="post in journals" :key="post.id" class="border-b border-gray-200 pb-4">
+    <!-- Journal Cards -->
+    <div
+      v-for="post in journals"
+      :key="post.id"
+      @click="goToJournal(post.id)"
+      class="group cursor-pointer border border-transparent hover:border-gray-300 hover:shadow-md transition-all duration-200 rounded-xl p-5 bg-white h-44 w-full flex flex-col justify-between"
+    >
+      <!-- Date -->
       <p class="text-sm text-gray-500 mb-1">
         {{ formatDate(post.createdAt) }}
       </p>
 
-      <a
-        class="text-xl font-mono subpixel-antialiased text-gray-700 hover:underline cursor-pointer"
-        :href="`/journal/${post.id}`"
+      <!-- Title -->
+      <h2
+        class="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-150 line-clamp-1"
       >
         {{ post.title }}
-      </a>
+      </h2>
 
-      <p class="text-gray-700 mt-2">
+      <!-- Description -->
+      <p class="text-gray-700 text-sm mt-2 line-clamp-2">
         {{ post.description }}
       </p>
 
-      <p class="text-gray-600 text-sm mt-2">
+      <!-- Tags -->
+      <div class="mt-3 flex flex-wrap gap-2">
         <span
           v-for="tag in post.tags"
           :key="tag"
-          class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
+          class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded border border-blue-300"
         >
           {{ tag }}
         </span>
-      </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { getJournalByTagFirebase } from '@/Services/unloadServices'
 
 export default {
   name: 'TagView',
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const tag = ref(route.params.tag)
     const journals = ref([])
 
@@ -51,11 +61,14 @@ export default {
       }
     }
 
+    const goToJournal = (id) => {
+      router.push(`/journal/${id}`)
+    }
+
     onMounted(() => {
       fetchJournals(tag.value)
     })
 
-    // React to route changes (e.g., user clicks another tag from sidebar)
     watch(
       () => route.params.tag,
       (newTag) => {
@@ -76,7 +89,31 @@ export default {
       tag,
       journals,
       formatDate,
+      goToJournal,
     }
   },
 }
 </script>
+
+<style scoped>
+.group {
+  transition: all 0.25s ease;
+}
+.group:hover {
+  transform: translateY(-2px);
+}
+
+/* Clamp text lines for uniform cards */
+.line-clamp-1,
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-1 {
+  -webkit-line-clamp: 1;
+}
+.line-clamp-2 {
+  -webkit-line-clamp: 2;
+}
+</style>

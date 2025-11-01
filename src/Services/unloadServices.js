@@ -94,14 +94,18 @@ export const getRelatedJournalsFirebase = async (currentId, tags) => {
 }
 export const getRecentJournalsFirebase = async () => {
   try {
-    const q = query(collection(db, 'journals'), orderBy('createdAt', 'desc'), limit(5))
+    // Fetch only the 3 most recent journals
+    const q = query(collection(db, 'journals'), orderBy('createdAt', 'desc'), limit(3))
     const querySnapshot = await getDocs(q)
 
-    return querySnapshot.docs.map((doc) => ({
+    const journals = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
       createdAt: doc.data().createdAt ? doc.data().createdAt.toDate().toISOString() : null,
     }))
+
+    console.log('✅ Fetched recent 3 journals:', journals)
+    return journals
   } catch (error) {
     console.error('🔥 Error fetching recent journals:', error)
     return []
