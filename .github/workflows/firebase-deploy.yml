@@ -25,7 +25,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # ⚡ Remove FirebaseExtended/action-hosting-deploy@v0 — we’ll just use the CLI
+      # ✅ Install Firebase CLI globally
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      # ✅ Deploy to correct target
       - name: Deploy to Firebase Hosting
         run: |
           if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
