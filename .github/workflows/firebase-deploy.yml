@@ -25,20 +25,17 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Firebase (Dev or Prod)
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: ''
-          channelId: live
-          projectId: brainunload-2f04e
+      # ⚡ Remove FirebaseExtended/action-hosting-deploy@v0 — we’ll just use the CLI
+      - name: Deploy to Firebase Hosting
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+            echo "🚀 Deploying to DEV..."
+            firebase deploy --only hosting:dev --token $FIREBASE_TOKEN
+          elif [ "${{ github.ref }}" == "refs/heads/master" ]; then
+            echo "🚀 Deploying to PROD..."
+            firebase deploy --only hosting:prod --token $FIREBASE_TOKEN
+          else
+            echo "🛑 Not a deploy branch. Skipping."
+          fi
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-      - name: Deploy to correct target
-        run: |
-          if [ "${{ github.ref }}" == "refs/heads/dev" ]; then
-            firebase deploy --only hosting:dev --token $FIREBASE_TOKEN
-          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            firebase deploy --only hosting:prod --token $FIREBASE_TOKEN
-          fi
