@@ -43,7 +43,7 @@ import { ref, computed } from 'vue'
 import { marked } from 'marked'
 // import { uploadJournal } from '@/Services/unloadServices'
 import { uploadJournalFirebase } from '@/Services/unloadServices'
-
+import './markdown.css'
 // Configure marked for GitHub-style Markdown
 marked.setOptions({
   breaks: true, // Enables line breaks with a single Enter
