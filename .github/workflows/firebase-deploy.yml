@@ -3,41 +3,40 @@ name: Deploy to Firebase Hosting
 on:
   push:
     branches:
-      - master
       - develop
+      - master
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    environment: ${{ github.ref == 'refs/heads/master' && '.env.production' || '.env.development' }}
+
     steps:
-      - name: 🧩 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: ⚙️ Use Node.js
+      - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-      # 🧱 Build step (simple + correct)
-      - name: 🏗️ Build project (Dev or Prod)
+      # 🧱 Build depending on the branch
+      - name: Build project (Dev or Prod)
         run: |
           if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
             echo "🛠️ Building DEV environment..."
-            npm run build:dev
+            npm run build
           elif [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "🛠️ Building PROD environment..."
-            npm run build:prod
-          else
-            echo "⚠️ Not a deploy branch. Skipping build."
-            exit 0
+            npm run build
           fi
         env:
-          # DEV ENV
+          # DEV
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
@@ -45,7 +44,7 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
 
-          # PROD ENV
+          # PROD
           VITE_FIREBASE_API_KEY_PROD: ${{ secrets.VITE_FIREBASE_API_KEY_PROD }}
           VITE_FIREBASE_AUTH_DOMAIN_PROD: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN_PROD }}
           VITE_FIREBASE_PROJECT_ID_PROD: ${{ secrets.VITE_FIREBASE_PROJECT_ID_PROD }}
@@ -53,23 +52,18 @@ jobs:
           VITE_FIREBASE_MESSAGING_SENDER_ID_PROD: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID_PROD }}
           VITE_FIREBASE_APP_ID_PROD: ${{ secrets.VITE_FIREBASE_APP_ID_PROD }}
 
-      - name: 🔥 Install Firebase CLI
+      - name: Install Firebase CLI
         run: npm install -g firebase-tools
-      - name: Debug ENV (TEMP)
+
+      - name: Deploy to Firebase Hosting
         run: |
-          echo "VITE_FIREBASE_PROJECT_ID: $VITE_FIREBASE_PROJECT_ID"
-        env:
-          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-      - name: 🚀 Deploy to Firebase Hosting
-        run: |
+          echo "🔍 Current branch: ${{ github.ref }}"
           if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
             echo "🚀 Deploying to DEV site (brainunload-2f04e)..."
             firebase deploy --only hosting:brainunload-2f04e --token $FIREBASE_TOKEN
           elif [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "🚀 Deploying to PROD site (brain-unload)..."
             firebase deploy --only hosting:brain-unload --token $FIREBASE_TOKEN
-          else
-            echo "🛑 Not a deploy branch. Skipping deployment."
           fi
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
