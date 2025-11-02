@@ -1,7 +1,7 @@
 <script setup>
 import linkedin from '@/assets/linkedin.png'
 import github from '@/assets/github.png'
-import gmail from '@/assets/Gmail.png'
+import gmail from '@/assets/gmail.png'
 
 const socials = [
   {
