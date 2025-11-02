@@ -1,0 +1,48 @@
+/* Markdown Styles (same as editor) */
+.preview h1,
+.preview h2,
+.preview h3 {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.preview pre {
+  background: #f4f4f4;
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.preview code {
+  background: #e0e0e0;
+  color: #222;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.preview blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 10px;
+  color: #666;
+  font-style: italic;
+}
+
+.preview ul {
+  padding-left: 20px;
+}
+
+.preview li {
+  margin-bottom: 5px;
+}
+
+.preview a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.preview a:hover {
+  color: #0056b3;
+}

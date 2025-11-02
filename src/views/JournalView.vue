@@ -48,6 +48,8 @@
 <script>
 import { ref, computed, onMounted } from 'vue'
 import { marked } from 'marked'
+import '../markdown.css'
+
 import {
   getJournalByIdFirebase,
   getRelatedJournalsFirebase,

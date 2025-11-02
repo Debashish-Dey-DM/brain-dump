@@ -1,5 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto mt-10 flex flex-col space-y-6">
+    <AboutMe />
     <div
       v-for="post in journals"
       :key="post.id"
@@ -41,9 +42,12 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getJournalsFirebase } from '@/Services/unloadServices'
-
+import AboutMe from './AboutMe.vue'
 export default {
   name: 'JournalList',
+  components: {
+    AboutMe,
+  },
   setup() {
     const journals = ref([])
     const router = useRouter()
