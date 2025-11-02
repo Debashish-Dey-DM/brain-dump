@@ -10,7 +10,15 @@
       <span class="font-semibold">cybersecurity student</span> based in
       <span class="font-semibold">Germany</span>. <br />
       I’m currently working at
-      <span class="font-semibold text-blue-700">elipZis</span> as a
+      <a
+        href="https://elipzis.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-semibold text-blue-700 hover:underline"
+      >
+        elipZis
+      </a>
+      as a
       <span class="font-semibold">working student</span>, where I contribute to
       <span class="font-semibold">gaming</span> and
       <span class="font-semibold">web platform development</span>. <br />
