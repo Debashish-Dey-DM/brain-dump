@@ -1,33 +1,21 @@
 {
   "hosting": [
     {
-      "site": "brainunload-2f04e",
+      "target": "dev",
       "public": "dist",
       "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
       ]
     },
     {
-      "site": "brain-unload-prod",
+      "target": "prod",
       "public": "dist",
       "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
       ]
     }
   ]
