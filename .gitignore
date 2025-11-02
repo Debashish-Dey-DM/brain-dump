@@ -28,3 +28,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+.env
+# Firebase cache file
+hosting.*.cache
+.env.production
+.env.development

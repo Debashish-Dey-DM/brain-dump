@@ -33,17 +33,17 @@ Vue.js is a progressive JavaScript framework used for building user interfaces a
 const app = Vue.createApp({
   data() {
     return {
-      message: "Hello Vue!"
-    };
+      message: 'Hello Vue!',
+    }
   },
   methods: {
     updateMessage() {
-      this.message = "Vue.js is awesome!";
-    }
-  }
-});
+      this.message = 'Vue.js is awesome!'
+    },
+  },
+})
 
-app.mount("#app");
+app.mount('#app')
 ```
 
 ## Installing Vue.js
@@ -66,4 +66,4 @@ npm install vue
 
 Vue.js is a powerful, easy-to-use framework that simplifies the development of interactive web applications. With its reactive data system and component-based structure, it provides an efficient way to build modern web apps.
 
-![Vue.js Components](https://i.imgur.com/3KZ2Xg2.png)
+![Vue.js Components](https://raw.githubusercontent.com/Debashish-Dey-DM/brain-dump/refs/heads/master/src/assets/Logo.png)
