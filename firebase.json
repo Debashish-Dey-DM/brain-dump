@@ -1,7 +1,7 @@
 {
   "hosting": [
     {
-      "target": "dev",
+      "site": "brainunload-2f04e",
       "public": "dist",
       "ignore": [
         "firebase.json",
@@ -16,7 +16,7 @@
       ]
     },
     {
-      "target": "prod",
+      "site": "brain-unload-prod",
       "public": "dist",
       "ignore": [
         "firebase.json",

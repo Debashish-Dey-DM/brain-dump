@@ -1,18 +1,8 @@
 {
   "projects": {
-    "default": "brainunload-2f04e"
+    "default": "brainunload-2f04e",
+    "prod": "brain-unload-prod"
   },
-  "targets": {
-    "brainunload-2f04e": {
-      "hosting": {
-        "dev": [
-          "brainunload-2f04e"
-        ],
-        "prod": [
-          "brainunload-prod"
-        ]
-      }
-    }
-  },
+  "targets": {},
   "etags": {}
 }

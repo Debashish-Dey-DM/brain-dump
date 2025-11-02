@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDB3oCnVxiekgs1h7HxcsXu-pddiLs4mAo',
-  authDomain: 'brainunload-2f04e.firebaseapp.com',
-  projectId: 'brainunload-2f04e',
-  storageBucket: 'brainunload-2f04e.appspot.com', // ✅ fixed here
-  messagingSenderId: '541829129675',
-  appId: '1:541829129675:web:6b16bc2aae8c732ae1824e',
-  measurementId: 'G-PCFPWJ67WB',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 }
 
 const app = initializeApp(firebaseConfig)
