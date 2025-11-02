@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: 'npm' # ✅ Enable caching for node_modules
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -28,28 +28,42 @@ jobs:
         run: |
           if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
             echo "🛠️ Building DEV environment..."
-            npm run build:dev
+            npm run build
           elif [ "${{ github.ref }}" == "refs/heads/master" ]; then
             echo "🛠️ Building PROD environment..."
-            npm run build:prod
+            npm run build
           else
             echo "⚠️ Not a deploy branch. Skipping build."
             exit 0
           fi
+        env:
+          # DEV
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
 
-      # 🔥 Install Firebase CLI (needed for deploy)
+          # PROD
+          VITE_FIREBASE_API_KEY_PROD: ${{ secrets.VITE_FIREBASE_API_KEY_PROD }}
+          VITE_FIREBASE_AUTH_DOMAIN_PROD: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN_PROD }}
+          VITE_FIREBASE_PROJECT_ID_PROD: ${{ secrets.VITE_FIREBASE_PROJECT_ID_PROD }}
+          VITE_FIREBASE_STORAGE_BUCKET_PROD: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET_PROD }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID_PROD: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID_PROD }}
+          VITE_FIREBASE_APP_ID_PROD: ${{ secrets.VITE_FIREBASE_APP_ID_PROD }}
+
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      # 🚀 Deploy to Firebase Hosting based on branch
       - name: Deploy to Firebase Hosting
         run: |
           if [ "${{ github.ref }}" == "refs/heads/develop" ]; then
             echo "🚀 Deploying to DEV site (brainunload-2f04e)..."
             firebase deploy --only hosting:brainunload-2f04e --token $FIREBASE_TOKEN
           elif [ "${{ github.ref }}" == "refs/heads/master" ]; then
-            echo "🚀 Deploying to PROD site (brain-unload-prod)..."
-            firebase deploy --only hosting:brain-unload-prod --token $FIREBASE_TOKEN
+            echo "🚀 Deploying to PROD site (brain-unload)..."
+            firebase deploy --only hosting:brain-unload --token $FIREBASE_TOKEN
           else
             echo "🛑 Not a deploy branch. Skipping deployment."
           fi
